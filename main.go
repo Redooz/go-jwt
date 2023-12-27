@@ -2,12 +2,13 @@ package main
 
 import (
 	"github.com/redooz/go-jwt/config"
+	"github.com/redooz/go-jwt/database"
 	"github.com/redooz/go-jwt/routes"
 )
 
 func init() {
 	config.LoadEnvVariables()
-	config.ConnectToDb()
+	database.ConnectToDb()
 }
 
 func main() {
