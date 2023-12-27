@@ -1,14 +1,17 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/redooz/go-jwt/config"
+	"github.com/redooz/go-jwt/routes"
+)
+
+func init() {
+	config.LoadEnvVariables()
+	config.ConnectToDb()
+}
 
 func main() {
-	r := gin.Default()
+	r := routes.InitRoutes()
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080
+	r.Run(string(":" + config.Port))
 }
