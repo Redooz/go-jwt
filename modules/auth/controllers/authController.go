@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/redooz/go-jwt/modules/auth/dtos"
 	"github.com/redooz/go-jwt/modules/auth/services"
 )
@@ -15,12 +16,19 @@ type AuthController struct {
 func (controller AuthController) SignUp(c *gin.Context) {
 	var body dtos.SignUpRequestDto
 
-	log.Default().Println("Sign Up")
-
-	if c.Bind(&body) != nil {
-		c.JSON(400, gin.H{
-			"message": "Invalid Request",
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
 		})
+		return
+	}
+
+	validate := validator.New()
+	err := validate.Struct(body)
+	validationErrors := err.(validator.ValidationErrors)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": validationErrors.Error()})
+		return
 	}
 
 	response, httpStatus, err := controller.service.SignUp(&body)
@@ -29,6 +37,7 @@ func (controller AuthController) SignUp(c *gin.Context) {
 		c.JSON(httpStatus, gin.H{
 			"message": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(httpStatus, gin.H{
