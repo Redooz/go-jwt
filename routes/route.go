@@ -2,8 +2,6 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	authControllers "github.com/redooz/go-jwt/modules/auth/controllers"
-	userControllers "github.com/redooz/go-jwt/modules/users/controllers"
 )
 
 func InitRoutes() *gin.Engine {
@@ -15,16 +13,8 @@ func InitRoutes() *gin.Engine {
 		})
 	})
 
-	authControllers := authControllers.AuthController{}
-	authRoutes := r.Group("/auth")
-	{
-		authRoutes.POST("/signup", authControllers.SignUp)
-	}
-
-	userRoutes := r.Group("/user")
-	{
-		userRoutes.GET("/hello", userControllers.HelloUser)
-	}
+	InitAuthRoutes(r)
+	InitUserRoutes(r)
 
 	return r
 }

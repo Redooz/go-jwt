@@ -14,5 +14,5 @@ func init() {
 func main() {
 	r := routes.InitRoutes()
 
-	r.Run(string(":" + config.Port))
+	r.Run(string(":" + config.PORT))
 }
