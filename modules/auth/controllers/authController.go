@@ -13,6 +13,16 @@ type AuthController struct {
 	service services.AuthService
 }
 
+// SignUp godoc
+// @Summary Sign up a new user
+// @Description Sign up a new user with the given request body
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param body body dtos.SignUpRequestDto true "Sign up info"
+// @Success 200 {object} dtos.SignUpResponseDto "Successfully registered"
+// @Failure 400
+// @Router /auth/signup [post]
 func (controller AuthController) SignUp(c *gin.Context) {
 	var body dtos.SignUpRequestDto
 
@@ -47,6 +57,16 @@ func (controller AuthController) SignUp(c *gin.Context) {
 	})
 }
 
+// SignIn godoc
+// @Summary Sign in a user
+// @Description Sign in a user with the given request body
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Param body body dtos.SignInRequestDto true "Sign in info"
+// @Success 200 {object} dtos.SignInResponseDto "Successfully logged in"
+// @Failure 400
+// @Router /auth/signin [post]
 func (controller AuthController) SignIn(c *gin.Context) {
 	var body dtos.SignInRequestDto
 

@@ -1,0 +1,108 @@
+definitions:
+  dtos.SignInRequestDto:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dtos.SignInResponseDto:
+    properties:
+      email:
+        type: string
+      token:
+        type: string
+    type: object
+  dtos.SignUpRequestDto:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dtos.SignUpResponseDto:
+    properties:
+      email:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: Sign in a user with the given request body
+      parameters:
+      - description: Sign in info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.SignInRequestDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully logged in
+          schema:
+            $ref: '#/definitions/dtos.SignInResponseDto'
+        "400":
+          description: Bad Request
+      summary: Sign in a user
+      tags:
+      - auth
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Sign up a new user with the given request body
+      parameters:
+      - description: Sign up info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.SignUpRequestDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully registered
+          schema:
+            $ref: '#/definitions/dtos.SignUpResponseDto'
+        "400":
+          description: Bad Request
+      summary: Sign up a new user
+      tags:
+      - auth
+  /user/hello:
+    get:
+      consumes:
+      - application/json
+      description: Returns a greeting to the user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully greeted the user
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+      security:
+      - ApiKeyAuth: []
+      summary: Greet the user
+      tags:
+      - user
+swagger: "2.0"
